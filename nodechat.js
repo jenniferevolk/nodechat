@@ -2,14 +2,19 @@ var express=require('express');
 var app=express();
 var server=require('http').Server(app);
 var io=require('socket.io')(server);
+var jquery=require('jquery');
+app.use(express.static(__dirname))
 
-io.on('connect',function(){
-	console.log('client connected...');
+//detect connect
+io.on('connect',function(client){
+	console.log('connected');
 });
 
+
+//serve page
 app.get('/',function(req,res){
-	res.sendFile(__dirname+'/'+'index.html');
-})
+	res.sendFile('index.html');
+});
 
 server.listen(8080);
 

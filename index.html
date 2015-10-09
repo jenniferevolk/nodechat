@@ -1,12 +1,23 @@
 <!doctype html>
 <head>
 <meta charset="utf-8">
+<script src="/socket.io/socket.io.js"></script>
+ <script src="/javascripts/jquery-1.11.3.min.js"></script>
 <title>Jenn's Node Chat</title>
 </head>
 <body>
-<script src="/socket.io/socket.io.js"></script>
+status: <a id="status">not connected</a>
+
+
+
 <script>
+
+//detect connect
 var socket=io.connect("http://localhost:8080");
+socket.on('connect',function(data){
+	$('#status').html('you are now connected');
+});
+
 </script>
 
 </body>
