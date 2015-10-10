@@ -4,28 +4,52 @@
 <script src="/socket.io/socket.io.js"></script>
  <script src="/javascripts/jquery-1.11.3.min.js"></script>
 <title>Jenn's Node Chat</title>
+
+
 </head>
 <body>
 status: <a id="status">not connected</a>
-<table border=1 width=600 height=400><tr><a id="chatform"></a></tr>
-	<tr><a id="chatinput"></a></tr>
+<Table border=1 height="600">
+<tr ><td valign="top"><a id="messages"></a>
+</td></tr>
+<tr height="20"><td><form>><input id="send" size=100 autocomplete="off" autofocus  /></form>
+</td></tr>
+</table>
 
 
 <script>
-
-//detect connect
 var socket=io();
+var nickname;
 
 socket.on('connect',function(){
+
+	//connected
 	$('#status').html('you are now connected');
-	nickname=prompt('what is your nickname?')
+	nickname=prompt('what is your nickname?');
+	socket.emit('message',nickname+' has joined');
+
+	//send message
+	$('form').submit(function(event){
+	socket.emit('message',nickname+": "+$('#send').val())
+	$("#send").val("");
+	event.preventDefault();
+
+	});
+
+
+	//incoming message
+	socket.on('message',function(msg){
+	console.log("message: "+msg);
+	$('#messages').append($('<ul>').text(msg));
+	});
+
+
 });
-
-
-
 socket.on('disconnect',function(){
 	$('#status').html('you are now disconnected');
 });
+
+
 
 </script>
 
