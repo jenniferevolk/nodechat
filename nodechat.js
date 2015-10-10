@@ -2,12 +2,14 @@ var express=require('express');
 var app=express();
 var server=require('http').Server(app);
 var io=require('socket.io')(server);
-var jquery=require('jquery');
 app.use(express.static(__dirname))
 
 //detect connect
-io.on('connect',function(client){
+io.on('connect',function(socket){
 	console.log('connected');
+socket.on('disconnect',function(){
+	console.log('disconnected');
+	});
 });
 
 

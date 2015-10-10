@@ -7,15 +7,24 @@
 </head>
 <body>
 status: <a id="status">not connected</a>
-
+<table border=1 width=600 height=400><tr><a id="chatform"></a></tr>
+	<tr><a id="chatinput"></a></tr>
 
 
 <script>
 
 //detect connect
-var socket=io.connect("http://localhost:8080");
-socket.on('connect',function(data){
+var socket=io();
+
+socket.on('connect',function(){
 	$('#status').html('you are now connected');
+	nickname=prompt('what is your nickname?')
+});
+
+
+
+socket.on('disconnect',function(){
+	$('#status').html('you are now disconnected');
 });
 
 </script>
