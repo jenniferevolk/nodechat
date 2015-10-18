@@ -4,17 +4,24 @@
 <script src="/socket.io/socket.io.js"></script>
  <script src="/javascripts/jquery-1.11.3.min.js"></script>
 <title>Node Box</title>
+<style>
+div {
+	height: 200px;
+	width:500px;
+	background: grey;
+	overflow: auto;
+}
+</style>
+
+
 
 
 </head>
 <body>
 status: <a id="status">not connected</a>
-<a id="messages">*</a>
-
-<form>><input id="send" size=100 autocomplete="off" autofocus  /></form>
-
-
-
+<div id="messages">
+</div>
+<form><input id="send" size=69 autocomplete="off" autofocus /></form>
 <script src="client.js"></script>
 
 </script>
