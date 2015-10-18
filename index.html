@@ -5,7 +5,7 @@
  <script src="/javascripts/jquery-1.11.3.min.js"></script>
 <title>Node Box</title>
 <style>
-div {
+#messages {
 	height: 300px;
 	width:  600px;
 	background: grey;
@@ -16,6 +16,12 @@ ul {
 		margin:0px;
 	 padding-left:10px;
 }
+#userlist {
+	height: 300px;
+	width:100px;
+	background:grey;
+	overflow:hidden;
+}
 </style>
 
 
@@ -24,12 +30,16 @@ ul {
 </head>
 <body>
 
-<br><br><br>
+<br><br><br><br><br>
 
 <center>
 status: <a id="status">not connected</a>
-<div id="messages" justify="left"></div>
+<table><tr>
+<td valign="top"><div id="userlist"></div></td>
+<td><div id="messages"></div>
 <form><input id="send" size=83  autocomplete="off" autofocus /></form>
+</td>
+</tr></table>
 </center>
 <script src="client.js"></script>
 

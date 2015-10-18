@@ -3,6 +3,7 @@ var app=express();
 var server=require('http').Server(app);
 var io=require('socket.io')(server);
 app.use(express.static(__dirname))
+var userlist=[];
 
 //socket actions
 io.on('connect',function(socket){
@@ -11,11 +12,21 @@ io.on('connect',function(socket){
 	socket.on('user joined', function(username){
 		socket.username=username;
 		sendMessage(username+' has joined');
-	});	
 
+		//update userlists
+				
+		socket.emit('userlist',userlist);
+		userlist.push(username);
+		io.emit('add',username);
+		
+	});	
+		
 	//user left
-	socket.on('disconnect',function(){ 
+	socket.on('disconnect',function(){
+		userlist.splice(userlist.indexOf(socket.username),1);
+		io.emit('remove',socket.username);
 		sendMessage(socket.username+' has left');
+		console.log(userlist);
 	});
 
 	//receive message
