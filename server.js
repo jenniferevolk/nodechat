@@ -6,27 +6,28 @@ app.use(express.static(__dirname))
 
 //socket actions
 io.on('connect',function(socket){
-	//disconnect
+
+	//user joined
+	socket.on('user joined', function(username){
+		socket.username=username;
+		sendMessage(username+' has joined');
+	});	
+
+	//user left
 	socket.on('disconnect',function(){ 
-		console.log('disconnected');
+		sendMessage(socket.username+' has left');
 	});
 
 	//receive message
 	socket.on('message', function(msg){
-		console.log(socket.username+': '+msg);
-		io.emit('message',{username: socket.username, message:  msg});
-	});
-
-	//new user
-	socket.on('new user', function(username){
-		socket.username=username;
-		console.log(username+' has joined');
-
+		sendMessage(socket.username+': '+msg);
 	});
 	
-	//server to everyone 
-		 
-	
+	//send message
+	function sendMessage(message){
+		console.log(message);
+		io.emit('message',message);
+	};	 	
 });
 
 
@@ -35,6 +36,5 @@ io.on('connect',function(socket){
 app.get('/',function(req,res){
 	res.sendFile('index.html');
 });
-
 server.listen(8080);
 

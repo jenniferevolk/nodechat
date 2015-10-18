@@ -3,26 +3,23 @@ var nickname;
 
 socket.on('connect',function(){
 
-	//connected
+	//get username and join chat
 	$('#status').html('you are now connected');
 	nickname=prompt('what is your nickname?');
-	socket.emit('new user',nickname);
+	socket.emit('user joined',nickname);
+
+	//receive message
+	socket.on('message',function(message){
+	console.log(message);
+	$('#messages').append($('<ul>').text(message));
+	});
 
 	//send message
 	$('form').submit(function(event){
 	socket.emit('message',$('#send').val())
 	$("#send").val("");
 	event.preventDefault();
-
 	});
-
-
-	//incoming message
-	socket.on('message',function(msg){
-	console.log(msg.username+":"+msg.message);
-	$('#messages').append($('<ul>').text(msg.username+":"+msg.message));
-	});
-
 
 });
 socket.on('disconnect',function(){
