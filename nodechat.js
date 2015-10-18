@@ -4,23 +4,29 @@ var server=require('http').Server(app);
 var io=require('socket.io')(server);
 app.use(express.static(__dirname))
 
-//detect connect/disconnect
+//socket actions
 io.on('connect',function(socket){
-	console.log('connected');
-
+	//disconnect
 	socket.on('disconnect',function(){ 
 		console.log('disconnected');
 	});
 
-//communications
-
-	//client to server
+	//receive message
 	socket.on('message', function(msg){
-		console.log('message: '+msg);
-		
-	//server to everyone 
-		 io.emit('message', msg);
+		console.log(socket.username+': '+msg);
+		io.emit('message',{username: socket.username, message:  msg});
 	});
+
+	//new user
+	socket.on('new user', function(username){
+		socket.username=username;
+		console.log(username+' has joined');
+
+	});
+	
+	//server to everyone 
+		 
+	
 });
 
 

@@ -3,18 +3,16 @@
 <meta charset="utf-8">
 <script src="/socket.io/socket.io.js"></script>
  <script src="/javascripts/jquery-1.11.3.min.js"></script>
-<title>Jenn's Node Chat</title>
+<title>Node Box</title>
 
 
 </head>
 <body>
 status: <a id="status">not connected</a>
-<Table border=1 height="600">
-<tr ><td valign="top"><a id="messages"></a>
-</td></tr>
-<tr height="20"><td><form>><input id="send" size=100 autocomplete="off" autofocus  /></form>
-</td></tr>
-</table>
+<a id="messages"></a>
+
+<form>><input id="send" size=100 autocomplete="off" autofocus  /></form>
+
 
 
 <script>
@@ -26,11 +24,11 @@ socket.on('connect',function(){
 	//connected
 	$('#status').html('you are now connected');
 	nickname=prompt('what is your nickname?');
-	socket.emit('message',nickname+' has joined');
+	socket.emit('new user',nickname);
 
 	//send message
 	$('form').submit(function(event){
-	socket.emit('message',nickname+": "+$('#send').val())
+	socket.emit('message',$('#send').val())
 	$("#send").val("");
 	event.preventDefault();
 
@@ -39,8 +37,8 @@ socket.on('connect',function(){
 
 	//incoming message
 	socket.on('message',function(msg){
-	console.log("message: "+msg);
-	$('#messages').append($('<ul>').text(msg));
+	console.log(msg.username+":"+msg.message);
+	$('#messages').append($('<ul>').text(msg.username+":"+msg.message));
 	});
 
 
