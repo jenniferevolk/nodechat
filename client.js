@@ -5,13 +5,14 @@ socket.on('connect',function(){
 
 	//get username and join chat
 	nickname=prompt('what is your nickname?');
-	$('#status').html('you are now connected');
+	$('#status').html('you are now connected as '+nickname);
 	socket.emit('user joined',nickname);
 
 	//maintain userlist
 	socket.on('add',function(username){
 		userlist.push(username)
 		updateUserList();
+		updateMessages("console",username+" has joined.");
 	});
 	socket.on('userlist',function(list){
 		userlist=list;
@@ -20,12 +21,12 @@ socket.on('connect',function(){
 	socket.on('remove',function(username){
 		userlist.splice(userlist.indexOf(socket.username),1);
 		updateUserList();
+		updateMessages("console",username+" has left.");
 	});
 
 	//receive message
-	socket.on('message',function(message){
-		$('#messages').append($('<ul>').text(message));
-		$('#messages').animate({scrollTop: $('#messages').height()});
+	socket.on('message',function(data){
+		updateMessages(data.user,data.message);
 	});
 
 	//send message
@@ -41,11 +42,19 @@ function updateUserList(){
 	userlist.sort();
 	$('#userlist').empty();
 	for(var i=0;i<numusers;i++){	
-	$('#userlist').append($('<ul>').text(userlist[i]));
+	$('#userlist').append('<ul>'+userlist[i]+'</ul>');
 	}
 	$('#userlist').animate({scrollTop: $('#userlist').height()});
 };
-	
+function updateMessages(user,message){
+		if(user=="console"){
+		$('#messages').append('<ul><i>'+message+'</i></ul>');
+		} else {		
+		$('#messages').append('<ul>'+user+": "+message+'</ul>');
+		};
+		$('#messages').animate({scrollTop: $('#messages').height()});
+
+};
 
 socket.on('disconnect',function(){
 	$('#status').html('you are now disconnected');

@@ -11,7 +11,6 @@ io.on('connect',function(socket){
 	//user joined
 	socket.on('user joined', function(username){
 		socket.username=username;
-		sendMessage(username+' has joined');
 
 		//update userlists
 				
@@ -25,13 +24,11 @@ io.on('connect',function(socket){
 	socket.on('disconnect',function(){
 		userlist.splice(userlist.indexOf(socket.username),1);
 		io.emit('remove',socket.username);
-		sendMessage(socket.username+' has left');
-		console.log(userlist);
 	});
 
 	//receive message
 	socket.on('message', function(msg){
-		sendMessage(socket.username+': '+msg);
+		sendMessage({user: socket.username, message: msg});
 	});
 	
 	//send message
