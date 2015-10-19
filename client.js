@@ -14,7 +14,7 @@ socket.on('connect',function(){
 		userlist.push(username)
 		updateUserList();
 		if(username!==nickname){
-		updateMessages("console",username+" has joined.",1);
+		updateMessages("",username+" has joined.",1);
 		};
 	});
 	socket.on('userlist',function(list){
@@ -24,7 +24,7 @@ socket.on('connect',function(){
 	socket.on('remove',function(username){
 		userlist.splice(userlist.indexOf(socket.username),1);
 		updateUserList();
-		updateMessages("console",username+" has left.");
+		updateMessages("",username+" has left.");
 	});
 
 	//receive message
