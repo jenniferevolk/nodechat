@@ -1,6 +1,7 @@
 var socket=io();
 var nickname;
 var userlist=[];
+var d=new Date(),typing,n;
 socket.on('connect',function(){
 
 	//get username and join chat
@@ -12,7 +13,9 @@ socket.on('connect',function(){
 	socket.on('add',function(username){
 		userlist.push(username)
 		updateUserList();
-		updateMessages("console",username+" has joined.");
+		if(username!==nickname){
+		updateMessages("console",username+" has joined.",1);
+		};
 	});
 	socket.on('userlist',function(list){
 		userlist=list;
@@ -35,7 +38,10 @@ socket.on('connect',function(){
 		$("#send").val("");
 		event.preventDefault();
 	});
+
+
 });
+
 
 function updateUserList(){
 	var numusers=userlist.length;
@@ -46,8 +52,8 @@ function updateUserList(){
 	}
 	$('#userlist').animate({scrollTop: $('#userlist').height()});
 };
-function updateMessages(user,message){
-		if(user=="console"){
+function updateMessages(user,message,system){
+		if(system==1){
 		$('#messages').append('<ul><i>'+message+'</i></ul>');
 		} else {		
 		$('#messages').append('<ul>'+user+": "+message+'</ul>');
