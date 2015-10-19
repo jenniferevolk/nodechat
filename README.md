@@ -12,7 +12,7 @@ Features:
 <br> and sends "add/remove user commands to keep client lists synced.
 <br>list is automaticly alpha-sorted each update.</li>
 <br>
-<li><b>frameless Scrolling windows</b> for user list and chat, leaving space
+<li><b>Frameless Scrolling windows</b> for user list and chat, leaving space
 <br>for more UI elements, branding and clean look.</li>
 <br>
 <li><b>No send button</b> - just press enter to send</li>
