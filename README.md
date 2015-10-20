@@ -10,7 +10,7 @@ Features:
 <ul>
 <li><b>Dynamic user list</b> - upon joining, server sends a user list, 
 <br> and sends "add/remove user commands to keep client lists synced.
-<br>list is automaticly alpha-sorted each update.</li>
+<br>The list is automaticly alpha-sorted each update.</li>
 <br>
 <li><b>Frameless Scrolling windows</b> for user list and chat, leaving space
 <br>for more UI elements, branding and clean look.</li>
@@ -24,8 +24,8 @@ Features:
 <br>
 <li><b>"User(s) is Typing" system messages</b></li>
 <br>
-<li><b>Open UI</b> - Server automaticly assigns a username on connection that can be
-<br>changed at anytime</li>
+<li><b>Friendly Inviting UI</b> - Server automaticly assigns a username on connection that can be
+<br>changed easily at anytime and puts the user immediately into the chat page.</li>
 
 
 </ul>
