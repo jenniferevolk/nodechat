@@ -11,11 +11,17 @@ socket.on('connect',function(){
 
 	//get username and join chat
 	nickname=prompt('what is your nickname?');
-	$('#status').html('you are now connected as '+nickname);
-	socket.emit('user joined',nickname);
+	$('#messages').empty();
+	socket.on('server alert',function(message){
+		alert(message)
+		});
+	
+	
 
 	//receive userlist
 	socket.on('userlist',function(list){
+		$('#status').html('you are now connected as '+nickname);
+		socket.emit('user joined',nickname);
 		userlist=list;
 		updateUserList();
 	});
@@ -51,29 +57,24 @@ socket.on('connect',function(){
 	
 	//another person is typing
 	socket.on('typing on',function(username){
-		console.log("typing on"+username);
+		if (username!=nickname)
 		typingMessageON(username);
 
 	});
 
 	//another person stopped typing
 	socket.on('typing off',function(username){
-		if ($.inArray(username,usersTyping)>-1){
+		if ($.inArray(username,usersTyping)>-1 && username!=nickname){
 			typingMessageOFF(username);
 		}
 	});
 
-	//are we typing?
-	//
-	
 
-//typingStatus.html('nobody is typing');
-//	console.log("off");
-
-
+//watch for keypresses and refesh our typing status
 setInterval(refreshTypingStatus,100);
 textarea.keypress(updateLastTypedTime);
 textarea.blur(refreshTypingStatus);
+
 });
 
 //if we started typing let them know ONCE and set the timer
@@ -87,15 +88,14 @@ function updateLastTypedTime(){
 
 //if we haven't pressed a key for over a second let them know we stopped
 function refreshTypingStatus(){
-	if(typing==1 && new Date().getTime()-lastTypedTime>5000){
+	if(typing==1 && new Date().getTime()-lastTypedTime>500){
 		socket.emit('typing off','');
 		typing=0;
 	}
 }
 
 function typingMessageON(username){
-	usersTyping.push(username);
-	console.log(usersTyping);
+	if(username!=null){usersTyping.push(username)};
 	if(usersTyping.length==1){
 		var isAre=" is typing";
 	} else {
@@ -107,7 +107,7 @@ function typingMessageON(username){
 
 
 function typingMessageOFF(username){
-	usersTyping.splice(username,1);
+	if(username!=null){usersTyping.splice(username,1)};
 	$('#temporaryMessage').remove();
 }
 
@@ -123,13 +123,14 @@ function updateUserList(){
 	$('#userlist').animate({scrollTop: $('#userlist').height()});
 };
 function updateMessages(user,message,system){
+		typingMessageOFF();
 		if(system==1){
 		$('#messages').append('<ul><i>'+message+'</i></ul>');
 		} else {		
 		$('#messages').append('<ul>'+user+": "+message+'</ul>');
 		};
 		$('#messages').animate({scrollTop: $('#messages').height()});
-
+		typingMessageON();
 };
 
 socket.on('disconnect',function(){

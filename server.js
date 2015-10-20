@@ -4,29 +4,32 @@ var server=require('http').Server(app);
 var io=require('socket.io')(server);
 app.use(express.static(__dirname))
 var userlist=[];
+var blocked=0;
 //socket actions
 io.on('connect',function(socket){
 	
 	//user joined
 	socket.on('user joined', function(username){
 		if(userlist.indexOf(username)>-1 || username==null){
-			console.log('invalid username: '+username);
-			socket.emit('server message','invalid username');
+			console.log('BLOCKED: invalid username: '+username);
+			socket.emit('server alert','invalid username');
 			socket.disconnect();
+			blocked=1;	
+		} else {
+			socket.username=username;
+			console.log(username+" joined.");
+			//update userlists
+			socket.emit('userlist',userlist);
+			userlist.push(username);
+			io.emit('add',username);
 		}
-		socket.username=username;
-		
-		//update userlists
-		socket.emit('userlist',userlist);
-		userlist.push(username);
-		io.emit('add',username);
-		
-	});	
+	});
 		
 	//user left
-	socket.on('disconnect',function(){
-		userlist.splice(userlist.indexOf(socket.username),1);
-		io.emit('remove',socket.username);
+	socket.on('disconnect',function(username){
+			console.log(username+" left.");
+			userlist.splice(userlist.indexOf(username),1);
+			io.emit('remove',username);
 	});
 
 	//receive user message
@@ -34,12 +37,7 @@ io.on('connect',function(socket){
 		sendMessage({user: socket.username, message: msg});
 	});
 	
-	//send user message
-	function sendMessage(message){
-		console.log(message);
-		io.emit('message',message);
-	};
-
+	
 	//user typing
 	socket.on('typing on',function(){
 		io.emit('typing on',socket.username);
@@ -49,12 +47,13 @@ io.on('connect',function(socket){
 	socket.on('typing off',function(){
 		io.emit('typing off',socket.username);
 	});	 	
-	
-
-	
-
+		
 });
 
+function sendMessage(message){
+	console.log(message);
+	io.emit('message',message);
+};
 
 
 //serve page
