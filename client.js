@@ -140,7 +140,7 @@ function updateMessages(user,message,system){
 		if(system==1){
 		$('#messages').append('<ul><i>'+message+'</i></ul>');
 		} else {		
-		$('#messages').append('<ul>'+user+": "+message+'</ul>');
+		$('#messages').append('<ul><b>'+user+": </b>"+message+'</ul>');
 		};
 		$('#messages').animate({scrollTop: $('#messages').height()});
 		typingMessageON();
