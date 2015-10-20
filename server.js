@@ -4,16 +4,19 @@ var server=require('http').Server(app);
 var io=require('socket.io')(server);
 app.use(express.static(__dirname))
 var userlist=[];
-var userRoom={};
 //socket actions
 io.on('connect',function(socket){
-
+	
 	//user joined
 	socket.on('user joined', function(username){
+		if(userlist.indexOf(username)>-1 || username==null){
+			console.log('invalid username: '+username);
+			socket.emit('server message','invalid username');
+			socket.disconnect();
+		}
 		socket.username=username;
-		userRoom.username.room="main";
+		
 		//update userlists
-				
 		socket.emit('userlist',userlist);
 		userlist.push(username);
 		io.emit('add',username);
@@ -26,22 +29,28 @@ io.on('connect',function(socket){
 		io.emit('remove',socket.username);
 	});
 
-	//receive message
+	//receive user message
 	socket.on('message', function(msg){
 		sendMessage({user: socket.username, message: msg});
 	});
 	
-	//send message
+	//send user message
 	function sendMessage(message){
 		console.log(message);
-		io.sockets.in(userRoom.socket.username.room).emit('message',message);
-	};	 	
+		io.emit('message',message);
+	};
 
+	//user typing
+	socket.on('typing on',function(){
+		io.emit('typing on',socket.username);
+	});
 
-socket.on('room', function(room){
-	socket.join(room);
-	userRoom.socket.username.room=room
-		});
+	//user stopped typing
+	socket.on('typing off',function(){
+		io.emit('typing off',socket.username);
+	});	 	
+	
+
 	
 
 });
