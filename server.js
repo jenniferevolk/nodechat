@@ -7,21 +7,34 @@ var userlist=[];
 var blocked=0;
 //socket actions
 io.on('connect',function(socket){
+	var users=userlist.length
+	var username="User "+users;
+	var count=0;
+	while(userlist.indexOf(username)>-1){
+		count++;
+		username="User "+count;
+	}
+	userlist.push(username);
+	socket.username=username;
+	socket.emit('username',username);
+	io.emit('add',username);
+	socket.emit('userlist',userlist);
+	console.log(username+" joined.");
+
 	
 	//user joined
-	socket.on('user joined', function(username){
+	socket.on('rename', function(username){
 		if(userlist.indexOf(username)>-1 || username==null){
 			console.log('BLOCKED: invalid username: '+username);
-			socket.emit('server alert','invalid username');
-			socket.disconnect();
-			blocked=1;	
+			socket.emit('server error','invalid username');	
+			socket.emit('username',socket.username);
 		} else {
+
+			//rename user 
+			console.log(socket.username+" renamed to "+username);
+			userlist[userlist.indexOf(socket.username)]=username;
+			io.emit('rename',{old: socket.username, new: username});
 			socket.username=username;
-			console.log(username+" joined.");
-			//update userlists
-			socket.emit('userlist',userlist);
-			userlist.push(username);
-			io.emit('add',username);
 		}
 	});
 		
@@ -32,9 +45,9 @@ io.on('connect',function(socket){
 			io.emit('remove',username);
 	});
 
-	//receive user message
+	//receive and share user message
 	socket.on('message', function(msg){
-		sendMessage({user: socket.username, message: msg});
+		io.emit('message',{user: socket.username, message: msg});
 	});
 	
 	
@@ -50,10 +63,6 @@ io.on('connect',function(socket){
 		
 });
 
-function sendMessage(message){
-	console.log(message);
-	io.emit('message',message);
-};
 
 
 //serve page

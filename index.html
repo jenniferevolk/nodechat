@@ -8,7 +8,7 @@
 #messages {
 	height: 300px;
 	width:  600px;
-	background: black;
+	background: lightgrey;
 	word-wrap: break-word;
 	text-align: left;
 	font-family: Helveticta, Arial;
@@ -18,17 +18,17 @@
 ul {
 		margin:0px;
 	 padding-left:10px;
-	color: white;
+	color: black;
 
 }
 
 #userlist {
 	height: 300px;
-	width:100px;
-	background:black;
+	width: 150px;
+	background: lightgrey;
 	overflow:hidden;
 	font-family: Helveticta, Arial;	
-	color: white;
+	color: black;
 }
 </style>
 
@@ -42,12 +42,14 @@ ul {
 
 <center>
 status: <a id="status">not connected</a>
-<table><tr>
-<td valign="top"><div id="userlist"></div></td>
-<td><div id="messages"></div><div id="typing_on"></div>
-<form><input id="send" size=83  autocomplete="off" autofocus /></form>
-</td>
-</tr></table>
+<table>
+<tr><td valign="top"><div id="userlist"></div></td>
+<td><div id="messages"></div></tr>
+
+<tr><td><input type="text" id="nick" size=19 autocomplet="off" autofocus placeholder="Nickname"/></td>
+<td><form><input type="text" id="send" size=83  autocomplete="off" placeholder="Message"/></form></td></tr>
+
+</table>
 </center>
 <script src="client.js"></script>
 

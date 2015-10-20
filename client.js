@@ -9,26 +9,28 @@ var lastTypedTime;
 
 socket.on('connect',function(){
 
-	//get username and join chat
-	nickname=prompt('what is your nickname?');
-	$('#messages').empty();
-	socket.on('server alert',function(message){
-		alert(message)
-		});
 	
-	
-
 	//receive userlist
 	socket.on('userlist',function(list){
-		$('#status').html('you are now connected as '+nickname);
-		socket.emit('user joined',nickname);
+		$('#status').html('you are now connected');
 		userlist=list;
 		updateUserList();
 	});
 
-	//another user joined
+	socket.on('username',function(username){
+		nickname=username
+		$('#nick').val(username);
+		
+	});
+	socket.on('rename',function(data){
+		userlist[userlist.indexOf(data.old)]=data.new;
+		updateMessages("",data.old+" is now known as "+data.new,1);
+		updateUserList();
+	});
+
+	//add user
 	socket.on('add',function(username){
-		userlist.push(username)
+		userlist.push(username);
 		updateUserList();
 		if(username!==nickname){
 		updateMessages("",username+" has joined.",1);
@@ -36,7 +38,7 @@ socket.on('connect',function(){
 	});
 
 
-	//another user left
+	//remove user
 	socket.on('remove',function(username){
 		userlist.splice(userlist.indexOf(socket.username),1);
 		updateUserList();
@@ -49,17 +51,27 @@ socket.on('connect',function(){
 	});
 
 	//send message
-	$('form').submit(function(event){
-		socket.emit('message',$('#send').val())
-		$("#send").val("");
-		event.preventDefault();
-	});
+	$('#send').keypress(function(event){
+		if (event.which==13){
+			socket.emit('message',$('#send').val())
+			$("#send").val("");
+			event.preventDefault();
+		}
+});
 	
+	//Get nickname
+	$('#nick').keypress(function(event){
+		if(event.which==13){
+			nickname=$("#nick").val();
+			socket.emit('rename',nickname);
+			event.preventDefault();
+		}
+	});
+
+
 	//another person is typing
 	socket.on('typing on',function(username){
-		if (username!=nickname)
-		typingMessageON(username);
-
+		if (username!=nickname){typingMessageON(username)};
 	});
 
 	//another person stopped typing
@@ -96,6 +108,7 @@ function refreshTypingStatus(){
 
 function typingMessageON(username){
 	if(username!=null){usersTyping.push(username)};
+	if(usersTyping.length==0){return};
 	if(usersTyping.length==1){
 		var isAre=" is typing";
 	} else {
