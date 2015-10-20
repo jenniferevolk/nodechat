@@ -21,10 +21,17 @@ Features:
 <br>and was able to send it back to the clients.</li>
 <br>
 <li><b>Connection status indicator</b></li>
+<br>
+<li><b>"User(s) is Typing" system messages</b></li>
+<br>
+<li><b>Open UI</b> - Server automaticly assigns a username on connection that can be
+<br>changed at anytime</li>
+
+
 </ul>
 <br>
 <br>Screenshot:
 <br>
-<a href="http://imgur.com/ksE9XyN"><img src="http://i.imgur.com/ksE9XyN.png" height=60% width=60% title="source: imgur.com" /></a>
+<a href="http://imgur.com/9jolHMH"><img src="http://i.imgur.com/9jolHMH.png" height=60% width=60% title="source: imgur.com" /></a>
 
   
