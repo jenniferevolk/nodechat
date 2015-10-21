@@ -22,7 +22,7 @@ Features:
 <br>
 <li><b>Connection status indicator</b></li>
 <br>
-<li><b>"User(s) is Typing" system messages</b></li>
+<li><b>"User(s) Typing" system messages</b></li>
 <br>
 <li><b>Friendly Inviting UI</b> - Server automaticly assigns a username on connection that can be
 <br>changed easily at anytime and puts the user immediately into the chat page.</li>
@@ -32,6 +32,6 @@ Features:
 <br>
 <br>Screenshot:
 <br>
-<a href="http://imgur.com/9jolHMH"><img src="http://i.imgur.com/9jolHMH.png" height=60% width=60% title="source: imgur.com" /></a>
+<a href="http://imgur.com/9jolHMH.png"><img src="http://i.imgur.com/9jolHMH.png" height=60% width=60% title="source: imgur.com" /></a>
 
   
