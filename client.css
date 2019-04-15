@@ -1,0 +1,23 @@
+#messages {
+  height: 300px;
+  background: lightgrey;
+  word-wrap: break-word;
+  text-align: left;
+  font-family: Helveticta, Arial;
+  color: black;
+  Font-size: 11pt;
+}
+
+ul {
+  margin: 0;
+  padding-left: 10px;
+  color: black;
+}
+
+#userlist {
+  height: 300px;
+  background: lightgrey;
+  overflow: hidden;
+  font-family: Helveticta, Arial;
+  color: black;
+}

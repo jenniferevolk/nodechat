@@ -1,60 +1,35 @@
 <!doctype html>
+
 <head>
-<meta charset="utf-8">
-<script src="/socket.io/socket.io.js"></script>
- <script src="/javascripts/jquery-1.11.3.min.js"></script>
-<title>Node Box</title>
-<style>
-#messages {
-	height: 300px;
-	width:  600px;
-	background: lightgrey;
-	word-wrap: break-word;
-	text-align: left;
-	font-family: Helveticta, Arial;
-	color: black;
-Font-size:11pt;
-	
-}
-ul {
-		margin:0px;
-	 padding-left:10px;
-	color: black;
-
-}
-
-#userlist {
-	height: 300px;
-	width: 150px;
-	background: lightgrey;
-	overflow:hidden;
-	font-family: Helveticta, Arial;	
-	color: black;
-}
-</style>
-
-
-
-
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="client.css">
+  <title>Node Box</title>
 </head>
+
 <body>
+  <br><br><br><br><br>
+  <center>
+    status: <a id="status">not connected</a>
+    <table>
+      <tr>
+        <td valign="top">
+          <div id="userlist"></div>
+        </td>
+        <td>
+          <div id="messages"></div>
+        </td>
+      </tr>
 
-<br><br><br><br><br>
+      <tr>
+        <td><input type="text" id="nick" size=13 autocomplet="off" placeholder="Nickname" /></td>
+        <td><input type="text" id="send" size=83 autocomplete="off" placeholder="Message" autofocus /></td>
+      </tr>
+    </table>
+  </center>
 
-<center>
-status: <a id="status">not connected</a>
-<table>
-<tr><td valign="top"><div id="userlist"></div></td>
-<td><div id="messages"></div></tr>
-
-<tr><td><input type="text" id="nick" size=19 autocomplet="off" autofocus placeholder="Nickname"/></td>
-<td><form><input type="text" id="send" size=83  autocomplete="off" placeholder="Message"/></form></td></tr>
-
-</table>
-</center>
-<script src="client.js"></script>
-
-</script>
-
+  <script src="client.js"></script>
 </body>
+
 </html>
