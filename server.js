@@ -73,5 +73,5 @@ io.on('connect', function(socket) {
 app.get('/', function(req, res) {
   res.sendFile('index.html');
 });
-console.log("Web Server started port 80");
-server.listen(80);
+console.log("Web Server started port 8080");
+server.listen(8080);
